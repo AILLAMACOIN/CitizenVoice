@@ -42,8 +42,8 @@ npm run dev
 
 ## Project Structure
 
-\`\`\`
-govpulse/
+```
+citizen-voice/
 ├── app/
 │   ├── components/
 │   │   ├── dashboard/
@@ -71,7 +71,7 @@ govpulse/
 ├── public/
 ├── styles/
 └── package.json
-\`\`\`
+```
 
 ## Contributing
 

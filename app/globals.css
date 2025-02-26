@@ -33,6 +33,9 @@
     --ring: 222.2 84% 4.9%;
  
     --radius: 0.5rem;
+    
+    --gold: 43 100% 50%;
+    --gold-hover: 43 100% 45%;
   }
  
   .dark {
@@ -73,4 +76,230 @@
   body {
     @apply bg-background text-foreground;
   }
+} 
+
+/* Accessibility-specific styles */
+
+/* High Contrast Mode */
+.high-contrast {
+  --foreground: 0 0% 0%;
+  --background: 0 0% 100%;
+  --primary: 0 0% 0%;
+  --primary-foreground: 0 0% 100%;
+  --secondary: 0 0% 20%;
+  --secondary-foreground: 0 0% 100%;
+  --muted: 0 0% 90%;
+  --muted-foreground: 0 0% 0%;
+  --border: 0 0% 0%;
+  --input: 0 0% 0%;
+  color: #000;
+  background-color: #fff;
+  border-color: #000;
+}
+
+.high-contrast a {
+  color: #0000EE !important;
+  text-decoration: underline !important;
+}
+
+.high-contrast button {
+  border: 2px solid #000 !important;
+  color: #000 !important;
+  background-color: #fff !important;
+}
+
+.high-contrast [role="button"],
+.high-contrast button:hover {
+  background-color: #ffff00 !important;
+  color: #000 !important;
+}
+
+.high-contrast img,
+.high-contrast svg {
+  filter: grayscale(100%) contrast(150%);
+}
+
+/* Reduce Motion */
+.reduce-motion * {
+  animation-duration: 0.001ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.001ms !important;
+  scroll-behavior: auto !important;
+}
+
+/* Focus Indicators */
+.focus-visible :focus-visible {
+  outline: 4px solid #FF8000 !important;
+  outline-offset: 2px !important;
+  border-radius: 0.25rem;
+}
+
+/* Accessibility utility classes */
+.visually-hidden {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}
+
+.skip-link {
+  position: absolute;
+  top: -40px;
+  left: 0;
+  background: var(--gold);
+  color: #000;
+  padding: 8px;
+  z-index: 9999;
+  font-weight: bold;
+}
+
+.skip-link:focus {
+  top: 0;
+}
+
+/* Screen reader specific classes */
+.sr-only {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}
+
+/* Style for elements when screen reader is active */
+[data-screen-reader-active="true"] :focus {
+  outline: 4px solid #FF8000 !important;
+  outline-offset: 2px !important;
+}
+
+/* Enhanced screen reader focus style */
+[data-screen-reader-active="true"] a:focus,
+[data-screen-reader-active="true"] button:focus,
+[data-screen-reader-active="true"] input:focus,
+[data-screen-reader-active="true"] select:focus,
+[data-screen-reader-active="true"] textarea:focus,
+[data-screen-reader-active="true"] [role="button"]:focus {
+  box-shadow: 0 0 0 4px rgba(255, 128, 0, 0.6) !important;
+  position: relative;
+  z-index: 1;
+}
+
+/* Screen reader announcement visualization for testing */
+.screen-reader-announcement {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  max-width: 300px;
+  padding: 12px;
+  background-color: rgba(0, 0, 0, 0.8);
+  color: white;
+  border-radius: 6px;
+  z-index: 9999;
+  font-size: 14px;
+  transition: opacity 0.3s ease;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Enhanced screen reader specific styles */
+[data-screen-reader-active="true"] {
+  /* Add a subtle indicator that screen reader is active */
+  --screen-reader-indicator: 6px;
+}
+
+[data-screen-reader-active="true"] body::before {
+  content: "Screen Reader Active";
+  position: fixed;
+  bottom: 20px;
+  left: 20px;
+  background-color: var(--gold);
+  color: black;
+  padding: 8px 12px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: bold;
+  z-index: 9900;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0% { opacity: 0.7; }
+  50% { opacity: 1; }
+  100% { opacity: 0.7; }
+}
+
+/* Enhanced focus indicator for screen reader */
+[data-screen-reader-active="true"] a:focus,
+[data-screen-reader-active="true"] button:focus,
+[data-screen-reader-active="true"] input:focus,
+[data-screen-reader-active="true"] select:focus,
+[data-screen-reader-active="true"] textarea:focus,
+[data-screen-reader-active="true"] [role="button"]:focus,
+[data-screen-reader-active="true"] [tabindex="0"]:focus {
+  outline: 4px solid #FF8000 !important;
+  outline-offset: 2px !important;
+  box-shadow: 0 0 0 4px rgba(255, 128, 0, 0.4) !important;
+  position: relative;
+  z-index: 5;
+}
+
+/* Add additional visual cue for current focused element */
+[data-screen-reader-active="true"] :focus::after {
+  content: "";
+  position: absolute;
+  inset: calc(-1 * var(--screen-reader-indicator));
+  border: var(--screen-reader-indicator) solid rgba(255, 128, 0, 0.5);
+  border-radius: calc(var(--screen-reader-indicator) + 4px);
+  z-index: -1;
+  animation: scale-pulse 1.5s infinite alternate;
+  pointer-events: none;
+}
+
+@keyframes scale-pulse {
+  0% { transform: scale(1); }
+  100% { transform: scale(1.05); }
+}
+
+/* Announcement styling */
+#screen-reader-announcer {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}
+
+/* Screen reader test visualization */
+.screen-reader-announcement {
+  position: fixed;
+  bottom: 80px; /* Positioned above the indicator */
+  right: 20px;
+  max-width: 300px;
+  padding: 12px;
+  background-color: rgba(0, 0, 0, 0.8);
+  color: white;
+  border-radius: 6px;
+  z-index: 9999;
+  font-size: 14px;
+  transition: opacity 0.3s ease;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  animation: fade-in 0.3s ease-out;
+}
+
+@keyframes fade-in {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
 } 

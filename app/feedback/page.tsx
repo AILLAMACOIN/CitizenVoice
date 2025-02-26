@@ -1,217 +1,172 @@
-"use client"
+import { MessageSquare, Star, AlertTriangle, CheckCircle } from 'lucide-react'
+import Link from 'next/link'
+import { Button } from '../components/ui/button'
 
-import { useState } from "react"
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "../components/ui/table"
-import { Button } from "../components/ui/button"
-import { Star, StarHalf } from "lucide-react"
+export const metadata = {
+  title: 'Feedback - Citizen Voice',
+  description: 'View feedback submitted to government departments',
+}
 
-const feedbackData = [
+// Mock data for public feedback view
+const publicFeedbackData = [
   {
-    customerName: "Ahmed Al Mansouri",
-    ministryName: "Ministry of Interior",
-    departmentName: "General Directorate of Residency and Foreigners Affairs",
-    eServiceName: "Visa Renewal",
-    date: "2025-02-10",
-    rating: 4,
-    comment: "The process was smooth, but it took a bit longer than expected. Overall, a good experience.",
+    id: '101',
+    text: "The new smart queuing system at the Ministry of Interior has significantly reduced waiting times.",
+    category: "service-quality",
+    department: "Ministry of Interior",
+    createdAt: "2023-12-10T10:30:00.000Z",
+    sentiment: "positive",
+    status: "addressed"
   },
   {
-    customerName: "Fatima Al Hashimi",
-    ministryName: "Ministry of Health and Prevention",
-    departmentName: "Health Centers and Clinics",
-    eServiceName: "COVID-19 Vaccination Appointment",
-    date: "2025-02-09",
-    rating: 5,
-    comment: "Excellent service! The online booking system was user-friendly and I got my appointment quickly.",
+    id: '102',
+    text: "The e-services portal for the Health Authority is very user-friendly and intuitive.",
+    category: "compliment",
+    department: "Ministry of Health",
+    createdAt: "2023-12-05T14:15:00.000Z",
+    sentiment: "positive",
+    status: "acknowledged"
   },
   {
-    customerName: "Mohammed Al Suwaidi",
-    ministryName: "Ministry of Education",
-    departmentName: "Higher Education",
-    eServiceName: "University Application",
-    date: "2025-02-08",
-    rating: 3,
-    comment:
-      "The application process was a bit confusing. It would be helpful to have more guidance on required documents.",
+    id: '103',
+    text: "I suggest adding more educational resources about sustainability on the Ministry of Climate Change website.",
+    category: "policy-suggestion",
+    department: "Ministry of Climate Change",
+    createdAt: "2023-11-28T09:45:00.000Z",
+    sentiment: "neutral",
+    status: "under-review"
   },
   {
-    customerName: "Aisha Al Zaabi",
-    ministryName: "Ministry of Economy",
-    departmentName: "Small and Medium Enterprises",
-    eServiceName: "Business License Renewal",
-    date: "2025-02-07",
-    rating: 4.5,
-    comment: "Very efficient process. The only improvement could be clearer instructions on fee payment.",
+    id: '104',
+    text: "The roads near Al Wasl require maintenance as there are several potholes causing traffic issues.",
+    category: "service-quality",
+    department: "Ministry of Infrastructure",
+    createdAt: "2023-11-20T16:20:00.000Z",
+    sentiment: "negative",
+    status: "in-progress"
   },
   {
-    customerName: "Saeed Al Naqbi",
-    ministryName: "Ministry of Climate Change and Environment",
-    departmentName: "Environmental Affairs",
-    eServiceName: "Environmental Impact Assessment Submission",
-    date: "2025-02-06",
-    rating: 2,
-    comment:
-      "The system was down for maintenance during my submission. Better communication about downtime would be appreciated.",
+    id: '105',
+    text: "The online education platform implemented by the Ministry of Education has been a great help for remote learning.",
+    category: "service-quality",
+    department: "Ministry of Education",
+    createdAt: "2023-11-15T11:05:00.000Z",
+    sentiment: "positive",
+    status: "addressed"
   },
   {
-    customerName: "Mariam Al Shamsi",
-    ministryName: "Ministry of Energy and Infrastructure",
-    departmentName: "Transportation",
-    eServiceName: "Vehicle Registration Renewal",
-    date: "2025-02-05",
-    rating: 5,
-    comment: "Fantastic service! I completed the entire process online without any issues. Highly recommended.",
-  },
-  {
-    customerName: "Khalid Al Qasimi",
-    ministryName: "Ministry of Justice",
-    departmentName: "Courts",
-    eServiceName: "Case Status Inquiry",
-    date: "2025-02-04",
-    rating: 4,
-    comment: "The online case status system is very helpful. It saves time from having to visit the court in person.",
-  },
-  {
-    customerName: "Noura Al Kaabi",
-    ministryName: "Ministry of Culture and Youth",
-    departmentName: "National Library",
-    eServiceName: "E-book Borrowing",
-    date: "2025-02-03",
-    rating: 4.5,
-    comment:
-      "Great selection of e-books. The borrowing process is straightforward. Would love to see more recent titles added.",
-  },
-  {
-    customerName: "Hassan Al Marzouqi",
-    ministryName: "Ministry of Human Resources and Emiratisation",
-    departmentName: "Labour Relations",
-    eServiceName: "Work Permit Application",
-    date: "2025-02-02",
-    rating: 3.5,
-    comment:
-      "The process was okay, but there were some delays in processing. More status updates would be appreciated.",
-  },
-  {
-    customerName: "Latifa Al Maktoum",
-    ministryName: "Ministry of Community Development",
-    departmentName: "Social Services",
-    eServiceName: "Social Support Application",
-    date: "2025-02-01",
-    rating: 5,
-    comment:
-      "The online application for social support was very user-friendly. The staff were also very helpful in guiding me through the process.",
-  },
-  {
-    customerName: "Zayed Al Nahyan",
-    ministryName: "Ministry of Presidential Affairs",
-    departmentName: "Citizen Services",
-    eServiceName: "Presidential Scholarship Application",
-    date: "2025-01-01",
-    rating: 5,
-    comment: "The scholarship application process was seamless. Very impressed with the efficiency and transparency.",
-  },
-  {
-    customerName: "Reem Al Falasi",
-    ministryName: "Ministry of Interior",
-    departmentName: "Federal Traffic Council",
-    eServiceName: "Traffic Fine Payment",
-    date: "2025-01-15",
-    rating: 4,
-    comment: "Quick and easy fine payment process. The mobile app works great.",
-  },
-  {
-    customerName: "Sultan Al Dhaheri",
-    ministryName: "Ministry of Energy and Infrastructure",
-    departmentName: "Water Resources",
-    eServiceName: "Water Connection Request",
-    date: "2025-01-20",
-    rating: 4.5,
-    comment: "Professional service and quick response time. Very satisfied with the outcome.",
-  },
-  {
-    customerName: "Maitha Al Mansoori",
-    ministryName: "Ministry of Education",
-    departmentName: "General Education",
-    eServiceName: "School Registration",
-    date: "2025-01-25",
-    rating: 4,
-    comment: "The online registration system is well-designed. Would appreciate more language options.",
-  },
+    id: '106',
+    text: "The recent update to the business licensing portal has made registration much faster. Thank you!",
+    category: "compliment",
+    department: "Ministry of Economy",
+    createdAt: "2023-11-10T13:40:00.000Z",
+    sentiment: "positive",
+    status: "acknowledged"
+  }
 ]
 
-function StarRating({ rating }: { rating: number }) {
-  return (
-    <div className="flex">
-      {[1, 2, 3, 4, 5].map((star) => (
-        <span key={star}>
-          {star <= rating ? (
-            <Star className="w-5 h-5 fill-gold text-gold" />
-          ) : star - 0.5 <= rating ? (
-            <StarHalf className="w-5 h-5 fill-gold text-gold" />
-          ) : (
-            <Star className="w-5 h-5 text-gray-300" />
-          )}
-        </span>
-      ))}
-    </div>
-  )
+function getCategoryIcon(category: string) {
+  switch(category) {
+    case 'service-quality': return <MessageSquare className="h-5 w-5 text-blue-500" />
+    case 'compliment': return <Star className="h-5 w-5 text-green-500" />
+    case 'urgent-matter': return <AlertTriangle className="h-5 w-5 text-red-500" />
+    case 'technical-issue': return <AlertTriangle className="h-5 w-5 text-amber-500" />
+    default: return <CheckCircle className="h-5 w-5 text-gray-500" />
+  }
+}
+
+function getStatusColor(status: string) {
+  switch(status) {
+    case 'addressed': return 'bg-green-100 text-green-800'
+    case 'in-progress': return 'bg-purple-100 text-purple-800'
+    case 'acknowledged': return 'bg-blue-100 text-blue-800'
+    case 'under-review': return 'bg-amber-100 text-amber-800'
+    default: return 'bg-gray-100 text-gray-800'
+  }
 }
 
 export default function FeedbackPage() {
-  const [currentPage, setCurrentPage] = useState(1)
-  const rowsPerPage = 10
-  const totalPages = Math.ceil(feedbackData.length / rowsPerPage)
-
-  const startIndex = (currentPage - 1) * rowsPerPage
-  const endIndex = startIndex + rowsPerPage
-  const currentFeedback = feedbackData.slice(startIndex, endIndex)
-
   return (
     <div className="container mx-auto p-4 space-y-6">
-      <h1 className="text-3xl font-bold text-gold mb-10">Customer Feedback</h1>
-      <div className="overflow-x-auto">
-        <Table>
-          <TableHeader>
-            <TableRow>
-              <TableHead>Customer Name</TableHead>
-              <TableHead>Ministry Name</TableHead>
-              <TableHead>Department Name</TableHead>
-              <TableHead>E-service Name</TableHead>
-              <TableHead>Date</TableHead>
-              <TableHead>Rating</TableHead>
-              <TableHead>Feedback Comment</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {currentFeedback.map((feedback, index) => (
-              <TableRow key={index}>
-                <TableCell>{feedback.customerName}</TableCell>
-                <TableCell>{feedback.ministryName}</TableCell>
-                <TableCell>{feedback.departmentName}</TableCell>
-                <TableCell>{feedback.eServiceName}</TableCell>
-                <TableCell>{feedback.date}</TableCell>
-                <TableCell>
-                  <StarRating rating={feedback.rating} />
-                </TableCell>
-                <TableCell>{feedback.comment}</TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
+      <div className="flex justify-between items-center">
+        <h1 className="text-3xl font-bold text-gold mb-4">Public Feedback</h1>
+        <Link href="/feedback-submission">
+          <Button className="bg-gold text-black hover:bg-gold/90">
+            Submit New Feedback
+          </Button>
+        </Link>
       </div>
-      <div className="flex justify-between items-center mt-4">
-        <Button onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))} disabled={currentPage === 1}>
-          Previous
-        </Button>
-        <span>
-          Page {currentPage} of {totalPages}
-        </span>
-        <Button
-          onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
-          disabled={currentPage === totalPages}
-        >
-          Next
-        </Button>
+      
+      <p className="text-gray-600 mb-6">
+        Browse feedback submitted by citizens to various government departments. 
+        This transparency helps us improve our services and build trust.
+      </p>
+      
+      <div className="flex justify-between items-center mb-6">
+        <div className="flex items-center space-x-2">
+          <span className="text-gray-700">Filter by:</span>
+          <select className="border rounded-md px-2 py-1 text-sm">
+            <option>All Departments</option>
+            <option>Ministry of Interior</option>
+            <option>Ministry of Health</option>
+            <option>Ministry of Education</option>
+            <option>Ministry of Infrastructure</option>
+            <option>Ministry of Economy</option>
+            <option>Ministry of Climate Change</option>
+          </select>
+          <select className="border rounded-md px-2 py-1 text-sm">
+            <option>All Categories</option>
+            <option>Service Quality</option>
+            <option>Technical Issue</option>
+            <option>Policy Suggestion</option>
+            <option>Compliment</option>
+          </select>
+        </div>
+        
+        <div>
+          <input 
+            type="search" 
+            placeholder="Search feedback..." 
+            className="border rounded-md px-3 py-1 w-64" 
+          />
+        </div>
+      </div>
+      
+      <div className="space-y-4">
+        {publicFeedbackData.map((feedback) => (
+          <div 
+            key={feedback.id} 
+            className="bg-white p-4 rounded-lg shadow-sm"
+          >
+            <div className="flex items-start justify-between">
+              <div className="flex items-start space-x-3">
+                <div className="mt-1">
+                  {getCategoryIcon(feedback.category)}
+                </div>
+                <div>
+                  <h3 className="font-medium">{feedback.department}</h3>
+                  <p className="text-gray-600 mt-1">
+                    {feedback.text}
+                  </p>
+                  <div className="flex flex-wrap gap-2 mt-2">
+                    <span className={`px-2 py-0.5 text-xs rounded-full ${getStatusColor(feedback.status)}`}>
+                      {feedback.status.replace('-', ' ')}
+                    </span>
+                  </div>
+                </div>
+              </div>
+              <div className="text-sm text-gray-500">
+                {new Date(feedback.createdAt).toLocaleDateString()}
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+      
+      <div className="mt-6 flex justify-center">
+        <button className="px-4 py-2 border rounded-md bg-white hover:bg-gray-50">
+          Load More
+        </button>
       </div>
     </div>
   )
