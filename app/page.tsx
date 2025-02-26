@@ -16,7 +16,7 @@ export default function Home() {
           <div className="flex flex-col items-center text-center">
             <div className="animate-fade-in-up">
               <h1 className="text-4xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-gold to-gold/70 bg-clip-text text-transparent">
-                GovPulse: Empowering Real-Time Citizen Feedback
+                Citizen Voice: Empowering Real-Time Public Feedback
               </h1>
               <p className="text-xl md:text-2xl mb-8 text-gray-700 max-w-3xl mx-auto">
                 Harnessing AI to transform public sentiment into actionable insights—building better services for
@@ -141,7 +141,7 @@ export default function Home() {
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
             <div>
-              <h3 className="font-bold text-gold mb-4">GovPulse</h3>
+              <h3 className="font-bold text-gold mb-4">Citizen Voice</h3>
               <p className="text-sm text-gray-600">
                 Transforming government-citizen communication through AI-powered insights
               </p>
@@ -175,7 +175,7 @@ export default function Home() {
             </div>
           </div>
           <div className="border-t mt-12 pt-8 text-center text-sm text-gray-600">
-            <p>&copy; 2025 GovPulse. All rights reserved.</p>
+            <p>&copy; 2025 Citizen Voice. All rights reserved.</p>
           </div>
         </div>
       </footer>

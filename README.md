@@ -1,6 +1,6 @@
-# GovPulse: AI-Driven Citizen Feedback Platform
+# Citizen Voice: AI-Driven Public Feedback Platform
 
-GovPulse is a modern web application built with Next.js and React that helps government entities collect, analyze, and act on citizen feedback. The platform uses AI to transform public sentiment into actionable insights, enabling better service delivery and citizen satisfaction.
+Citizen Voice is a modern web application built with Next.js and React that helps government entities collect, analyze, and act on citizen feedback. The platform uses AI to transform public sentiment into actionable insights, enabling better service delivery and citizen satisfaction.
 
 ## Features
 
@@ -24,8 +24,8 @@ GovPulse is a modern web application built with Next.js and React that helps gov
 
 1. Clone the repository:
 \`\`\`bash
-git clone https://github.com/yourusername/govpulse.git
-cd govpulse
+git clone https://github.com/yourusername/citizen-voice.git
+cd citizen-voice
 \`\`\`
 
 2. Install dependencies:
